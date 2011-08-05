@@ -44,7 +44,7 @@
 <body>
 <div id="jqt">
 <div id="home" selected="true">
-    <div class="toolbar" ontouchmove="touchMove(event);">
+    <div class="toolbar">
         <h1>Event Score</h1>
         <a id="aBtn" href="#options" class="button" >Options</a>
         <div class="buttonset" style="position: absolute; top:7px; left:4px;">
@@ -57,6 +57,18 @@
         </div>
         <!--        <a id="aBtn2" href="#" class="button" onClick="top()" style="position: absolute; top:7px; left:0px;">Top</a> -->
     </div>
+    <div id="tabBar" class="buttonset navibar">
+        <div class="button" onClick="sortNum('.liNo')">
+            Sort:Num
+        </div>
+        <div class="button" onClick="sortNum('.liTotal')">
+            Sort:Pos
+        </div>
+        <div class="button" onClick="jQT.goTo('#timing','slideup');">
+            Timing
+        </div>
+    </div>
+
     <div class="buttonset navibar">
         <input onclick="doFilter()" type="radio" name="whatsup" title="All" checked/>
         <input onclick="doFilter(1)" type="radio" name="whatsup" title="Ring 1" />
@@ -178,25 +190,6 @@
             <ul id='sortedList'>
 
             </ul>
-        </div>
-    </div>
-    <div id="tabBar" class="buttonset navibar">
-        <div class="button" onClick="sortNum('.liNo')">
-            Sort:Num
-        </div>
-        <div class="button" onClick="sortNum('.liTotal')">
-            Sort:Pos
-        </div>
-        <div class="button" onClick="jQT.goTo('#timing','slideup');">
-            Timing
-        </div>
-    </div>
-    <div id="delBar" class="buttonset navibar hide">
-        <div class="button" onClick="doDelHide()">
-            Archive
-        </div>
-        <div class="button red" onClick="doDelete()">
-            Delete
         </div>
     </div>
 </div>

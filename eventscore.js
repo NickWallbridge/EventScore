@@ -329,7 +329,7 @@ function timer() {
 
 function setHeight() {
 //    console.log('setHeight ...');
-    setTimeout("$(window).resize()", 50);
+//    setTimeout("$(window).resize()", 50);
 }
 var $currentEdit;
 function saveEdit() {
@@ -360,68 +360,6 @@ function doBindings() {
 $(document).ready(function() {
     loadFromLocal();
     doBindings();
-    // initialize iscroll
-    var KEY_ISCROLL_OBJ = 'iscroll_object';
-    function refreshScroll($pane) {
-//        console.log('refreshScroll...');
-        $pane.find('.s-scrollwrapper, .s-innerscrollwrapper').each(function(i, wrap) {
-            var $wrapper = $(wrap);
-            var scroll = $wrapper.data(KEY_ISCROLL_OBJ);
-            if(scroll !== undefined && scroll !== null) {
-                scroll.refresh();
-            }
-        });
-    }
-
-
-
-    function loaded() {
-        $("#jqt").children().each(function(i, pane) {
-            $(pane).find('.s-scrollwrapper, .s-innerscrollwrapper').each(function(i, wrap) {
-                var $wrapper = $(wrap);
-
-                var data = $wrapper.data(KEY_ISCROLL_OBJ);
-                if(data === undefined || data === null) {
-                    var scroll;
-                    var options = {
-                        useTransition : true,
-                        onBeforeScrollStart : function(e) {
-                            var target = e.target;
-                            while(target.nodeType != 1)
-                                target = target.parentNode;
-
-                            if(target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
-                                e.preventDefault();
-                        }
-                    };
-                    scroll = new iScroll(wrap, options);
-                    $wrapper.data(KEY_ISCROLL_OBJ, scroll);
-                    scroll.refresh();
-                }
-            });
-            $(pane).bind('pageAnimationEnd', function(event, info) {
-                if(info.direction == 'in') {
-                    refreshScroll($(this));
-                }
-            });
-        });
-        $(window).resize(function() {
-            $('#jqt > .current').each(function(i, one) {
-                refreshScroll($(one));
-            });
-        });
-    }
-
-    loaded();
-
-    setTimeout(function() {
-        loaded();
-        $(window).resize();
-
-        setTimeout(function() {
-            $(window).resize();
-        }, 1500);
-    }, 50);
     setInterval("timer()",100);
 
 });
@@ -478,34 +416,11 @@ $(function() {
 
 function top() {
 
-    var KEY_ISCROLL_OBJ = 'iscroll_object';
-    var $wrapper = $('#home .s-scrollwrapper');
-    var scroll = $wrapper.data(KEY_ISCROLL_OBJ);
-    if(scroll !== undefined && scroll !== null) {
-        scroll.scrollTo(0, 0, 200);
-    }
     setHeight();
 }
 
 function end() {
 
-    var KEY_ISCROLL_OBJ = 'iscroll_object';
-    var $wrapper = $('#home .s-scrollwrapper');
-    var scroll = $wrapper.data(KEY_ISCROLL_OBJ);
-    var aHeight;
-    var visible = 0;
-    $('#mainList li').each(function() {
-        if(! $(this).hasClass('hide')) {
-            visible++;
-            // = visible +  $('#incomplete li').height();
-            aHeight = this.clientHeight;
-        }
-    });
-    if(scroll !== undefined && scroll !== null) {
-        var selector = "#incomplete > li:nth-child(" + String( visible - 1) + ")";
-        scroll.scrollTo(0, -1 * ( visible - 1) * aHeight, 200);
-        //        scroll.scrollToElement('#incomplete > li:nth-child(140)',200);
-    }
     setHeight();
 }
 
