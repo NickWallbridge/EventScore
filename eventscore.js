@@ -19,8 +19,7 @@ document.addEventListener('touchmove', function(e) { e.preventDefault();}, false
 // PhoneGap is ready
 //
 function onDeviceReady() {
-    console.log('Phonegap Ready ...');
-
+//    console.log('Phonegap Ready ...');
 }
 
 function doFilter(ring) {
@@ -329,7 +328,7 @@ function timer() {
 }
 
 function setHeight() {
-    console.log('setHeight ...');
+//    console.log('setHeight ...');
     setTimeout("$(window).resize()", 50);
 }
 var $currentEdit;
@@ -364,7 +363,7 @@ $(document).ready(function() {
     // initialize iscroll
     var KEY_ISCROLL_OBJ = 'iscroll_object';
     function refreshScroll($pane) {
-        console.log('refreshScroll...');
+//        console.log('refreshScroll...');
         $pane.find('.s-scrollwrapper, .s-innerscrollwrapper').each(function(i, wrap) {
             var $wrapper = $(wrap);
             var scroll = $wrapper.data(KEY_ISCROLL_OBJ);
@@ -447,7 +446,7 @@ $(function() {
     // Orientation callback event
     //new NoClickDelay(document.getElementById('aBtnTest'));
     $('#home').bind('pageAnimationStart', function(e, info) {
-        console.log('Home Animate Start');
+//        console.log('Home Animate Start');
 
         /*
          if ($(window).width() > 430 + 150) {
