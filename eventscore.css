@@ -33,7 +33,7 @@ div#jqt .hide {
 }
 .compStartTime {
     float:right;
-    padding-right: 10px;
+    padding-right: 5px;
 }
 .compStopTime {
     float:right;
@@ -41,13 +41,14 @@ div#jqt .hide {
 }
 
 .compTime {
-    padding-right: 10px;
+    padding-right: 5px;
     float:right;
+    color: navy;
 }
 .penalties {
     float:right;
     color: green;
-    min-width: 40px;
+    min-width: 35px;
     text-align: right;
 }
 

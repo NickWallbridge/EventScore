@@ -281,15 +281,55 @@ function doCompStop(that) {
     $el.remove();
     $('#stopList li:first-child').remove();
     setHeight();
+    doSaveTimings()
 
 }
+function doSaveTimings(){
+    localStorage['EventTiming_All']=$('#finishedList').html()
+    localStorage['EventRunning_All']=$('#runningList').html()
+
+
+}
+
+function loadLocalTimings() {
+    $('#finishedList').html(localStorage['EventTiming_All'])
+    $('#runningList').html(localStorage['EventRunning_All'])
+
+}
+
+function doOptimumSet(){
+    $('.showOptimum').text($('#optimum').val())
+}
+
+function doDNF(that) {
+    var stopTime = $('#stopList li:first-child').text();
+    if (stopTime == '') {
+        stopTime = $('#theTime').text();  //do "immediate" stop
+    }
+    var $el = $(that).parent('li');
+    var startTime = $('.compStartTime',$el).text();
+    var compNo = $('.compNo',$el).text();
+
+
+
+    $("<li><div class='compNo'>"+compNo+"</div><div class='penalties penaltiesRed'>ELIM</div><div class='compTime'>DNF</div><div class='compStopTime'>--:--:--</div><div class='compStartTime'>"+startTime+"</div></li>").prependTo('#finishedList');
+    $el.remove();
+    $('#stopList li:first-child').remove();
+    setHeight();
+    window.event.stopPropagation();
+    doSaveTimings();
+
+
+}
+
 function doStart() {
     if ($('#competitorNo').val().length > 0 ) {
         var startTime = $('#theTime').text();
         var compNo = $('#competitorNo').val();
-        $("<li onclick='doCompStop(this)' class='arrow'><div class='compNo'>"+compNo+"</div><div class='compStartTime'>"+startTime+"</div><div class='button gray dnf'>DNF</div></li>").appendTo('#runningList');
+        $("<li onclick='doCompStop(this)' class='arrow'><div class='compNo'>"+compNo+"</div><div class='compStartTime'>"+startTime+"</div><div class='button dnf' onclick='doDNF(this)'>DNF</div></li>").appendTo('#runningList');
         $('#competitorNo').val('');
         setHeight();
+        doSaveTimings();
     }
 }
 
@@ -412,7 +452,7 @@ $(document).ready(function() {
         });
     }
 
-    //loaded();
+    loaded();
 
     setTimeout(function() {
         loaded();
@@ -421,7 +461,7 @@ $(document).ready(function() {
         setTimeout(function() {
             $(window).resize();
         }, 1500);
-    }, 200);
+    }, 50);
 
     setInterval("timer()",100);
 

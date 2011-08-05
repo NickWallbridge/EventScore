@@ -208,6 +208,7 @@
         <h1><span id='competitor'>[competitor]</span></h1>
         <a href="#" class="back">Cancel</a>
     </div>
+    <h3><div style='text-align: center;'>Optimum: <span class='showOptimum'>NOT SET</span></div></h3>
     <div class="s-scrollwrapper contentwrap">
         <div class="s-scrollpane">
             <ul class="edit rounded">
@@ -260,7 +261,7 @@
                         Optimum Time
                     </div>
                     <div style="float:right">
-                        <input type='number' name="optimum" size="8" placeholder="(mm:ss)" id="optimum">
+                        <input type='number' name="optimum" size="8" placeholder="(mm:ss)" onchange="doOptimumSet()" id="optimum">
                     </div>
                 </li>
             </ul>
@@ -272,6 +273,10 @@
                 <li class="arrow" onclick="loadFromRemote()">Load from Remote</li>
             </ul>
 
+            <ul class="edit rounded">
+                <li class="arrow" onclick="loadLocalTimings()">Load Timings</li>
+            </ul>
+
         </div>
     </div>
 </div>
@@ -281,7 +286,10 @@
     <div class="toolbar">
         <h1><span id="theTime">00:00:00</span></h1>
         <a href="#" class="back">Back</a>
+        <a href="#options" class="button" >Options</a>
+
     </div>
+    <h3><div style='text-align: center;'>Optimum: <span class='showOptimum'>NOT SET</span></div></h3>
     <ul class="edit rounded">
         <li>
             <div style="float:left">
@@ -292,16 +300,19 @@
             <h1>Start</h1>
         </li>
     </ul>
-    <ul class="edit rounded">
+<!--    <ul class="edit rounded">
         <li class="arrow" onclick="doStop()">
             <h1>Stop</h1>
         </li>
     </ul>
+-->
     <div class="s-scrollwrapper contentwrap">
         <div class="s-scrollpane">
-            <h4>Stop Times</h4>
+<!--            <h4>Stop Times</h4>
             <ul id="stopList" class="rounded">
             </ul>
+
+-->
             <h4>Running</h4>
             <ul id="runningList" class="rounded">
             </ul>
