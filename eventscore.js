@@ -1,5 +1,7 @@
-//Copyright (c) 2011 N D Wallbridge
-// JavaScript Document
+/*
+ Copyright (c) 2011 N D Wallbridge
+ JavaScript Document
+ */
 var version = "0.1.0";
 var undo = [];
 var scoreData = [];
@@ -12,9 +14,7 @@ var jQT = $.jQTouch({
     preloadImages : []
 });
 document.addEventListener("deviceready", onDeviceReady, false);
-document.addEventListener('touchmove', function(e) { e.preventDefault();
-}, false);
-//not sure what this does
+document.addEventListener('touchmove', function(e) { e.preventDefault();}, false); //not sure what this does
 
 // PhoneGap is ready
 //
@@ -23,10 +23,32 @@ function onDeviceReady() {
 
 }
 
+function doFilter(ring) {
+    if (ring == undefined) {
+        $('#mainList li').show();
+        sortNum('.liNo');
+    } else {
+        //$('#mainList li').hide();
+        $('#mainList li').each(function() {
+            var $el = $(this);
+            var elRing = $('.liRing', $el).text();
+            if (elRing == ring) {
+                $el.show();
+            } else {
+                $el.hide();
+            }
+        });
+        sortNum('.liTotal');
+
+    }
+    setHeight();
+}
+
 function saveToLocal () {
     scoreData = [];
     $('#mainList li').each(function(i) {
         var $el = $(this);
+        var ring = $('.liRing',$el).text();
         var num = $('.liNo',$el).text();
         var horse = $('.liHorse',$el).text();
         var rider = $('.liRider',$el).text();
@@ -35,7 +57,7 @@ function saveToLocal () {
         var xc = $("INPUT[name='XC']",$el).val();
         var xct = $("INPUT[name='XCT']",$el).val();
 
-        scoreData.push([num,horse,rider,dr,sj,xc,xct])
+        scoreData.push([ring,num,horse,rider,dr,sj,xc,xct])
 
     });
 
@@ -82,15 +104,17 @@ function loadFromLocal() {
         }
 
         while (scoreData.length > 0) {
-            $('.liNo',$el).text(scoreData[0][0]);
-            $('.liHorse',$el).text(scoreData[0][1]);
-            $('.liRider',$el).text(scoreData[0][2]);
-            $("INPUT[name='dressage']",$el).val(scoreData[0][3]);
-            $("INPUT[name='SJ']",$el).val(scoreData[0][4]);
-            $("INPUT[name='XC']",$el).val(scoreData[0][5]);
-            $("INPUT[name='XCT']",$el).val(scoreData[0][6]);
+            $('.liRing',$el).text(scoreData[0][0]);
+            $('.liNo',$el).text(scoreData[0][1]);
+            $('.liHorse',$el).text(scoreData[0][2]);
+            $('.liRider',$el).text(scoreData[0][3]);
+            $("INPUT[name='dressage']",$el).val(scoreData[0][4]);
+            $("INPUT[name='SJ']",$el).val(scoreData[0][5]);
+            $("INPUT[name='XC']",$el).val(scoreData[0][6]);
+            $("INPUT[name='XCT']",$el).val(scoreData[0][7]);
             doCalcTotal($("INPUT[name='XCT']", $el)[0], true);
             scoreData.shift();
+            $el.show();
             $el.appendTo($('#mainList'));
             $el = $('#mainList li:first-child').clone();
         }
@@ -137,9 +161,13 @@ function sortNum(selected) {
     }
     if (selected == '.liTotal') {
         //update position
+        var position = 1;
         $('#mainList li').each(function(i , that){
             $el = $(this);
-            $('.liPos', $el).text(i+1);
+            if( $el.is(":visible") ) {
+                $('.liPos', $el).text(position);
+                position++;
+            }
         });
     }
 

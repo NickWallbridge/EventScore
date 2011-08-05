@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-<!-- //Copyright (c) 2011 N D Wallbridge -->
+    <!-- //Copyright (c) 2011 N D Wallbridge -->
     <meta charset="UTF-8" />
     <title>Event Score</title>
     <style type="text/css" media="screen">
@@ -45,240 +45,273 @@
 </head>
 <body>
 <div id="jqt">
-    <div id="home" selected="true">
-        <div class="toolbar" ontouchmove="touchMove(event);">
-            <h1>Event Score</h1>
-            <a id="aBtn" href="#options" class="button" >Options</a>
-            <div class="buttonset" style="position: absolute; top:7px; left:4px;">
-                <div class="button" onClick="top()">
-                    Top
-                </div>
-                <div class="button" onClick="end()">
-                    End
-                </div>
+<div id="home" selected="true">
+    <div class="toolbar" ontouchmove="touchMove(event);">
+        <h1>Event Score</h1>
+        <a id="aBtn" href="#options" class="button" >Options</a>
+        <div class="buttonset" style="position: absolute; top:7px; left:4px;">
+            <div class="button" onClick="top()">
+                Top
             </div>
-            <!--        <a id="aBtn2" href="#" class="button" onClick="top()" style="position: absolute; top:7px; left:0px;">Top</a> -->
-        </div>
-        <div class="s-scrollwrapper contentwrap">
-            <div class="s-scrollpane">
-                <ul id="mainList" class="edgetoedge childrenactivable">
-                    <li>
-                        <div class="liNo">104</div>
-                        <div class="liHorse ">Dylan the Bard</div>
-                        <div class="liRider hide">Marion Wallbridge</div>
-                        <div class="liPos">1</div>
-                        <div class="liPosLabel">Pos:</div>
-
-                        &nbsp;<br>&nbsp;
-
-                        <div class="liLabel">D:</div>
-                        <div class="liInput"><input type='number' name="dressage" size="5" placeholder="Dr"></div>
-                        <div class="liLabel">SJ:</div>
-                        <div class="liInput"><input type='number' name="SJ" size="5" placeholder="SJ"></div>
-                        <div class="liLabel">XC:</div>
-                        <div class="liInput"><input type='number' name="XC" size="5" placeholder="XC"></div>
-                        <div class="liLabel">XCT:</div>
-                        <div class="liInput"><input type='number' name="XCT" size="5" placeholder="XCT"></div>
-                        <div class="liTotal">---</div>
-                    </li>
-
-                    <li>
-                        <div class="liNo">103</div>
-                        <div class="liHorse ">Dylan the Bard</div>
-                        <div class="liRider hide">Marion Wallbridge</div>
-                        <div class="liPos">1</div>
-                        <div class="liPosLabel">Pos:</div>
-
-                        &nbsp;<br>&nbsp;
-                        
-                        <div class="liLabel">D:</div>
-                        <div class="liInput"><input type='number' name="dressage" size="5" placeholder="Dr"></div>
-                        <div class="liLabel">SJ:</div>
-                        <div class="liInput"><input type='number' name="SJ" size="5" placeholder="SJ"></div>
-                        <div class="liLabel">XC:</div>
-                        <div class="liInput"><input type='number' name="XC" size="5" placeholder="XC"></div>
-                        <div class="liLabel">XCT:</div>
-                        <div class="liInput"><input type='number' name="XCT" size="5" placeholder="XCT"></div>
-                        <div class="liTotal">---</div>
-                    </li>
-                    <li>
-                        <div class="liNo">101</div>
-                        <div class="liHorse ">Dylan the Bard</div>
-                        <div class="liRider hide">Marion Wallbridge</div>
-                        <div class="liPos">1</div>
-                        <div class="liPosLabel">Pos:</div>
-
-                        &nbsp;<br>&nbsp;
-
-                        <div class="liLabel">D:</div>
-                        <div class="liInput"><input type='number' name="dressage" size="5" placeholder="Dr"></div>
-                        <div class="liLabel">SJ:</div>
-                        <div class="liInput"><input type='number' name="SJ" size="5" placeholder="SJ"></div>
-                        <div class="liLabel">XC:</div>
-                        <div class="liInput"><input type='number' name="XC" size="5" placeholder="XC"></div>
-                        <div class="liLabel">XCT:</div>
-                        <div class="liInput"><input type='number' name="XCT" size="5" placeholder="XCT"></div>
-                        <div class="liTotal">---</div>
-                    </li>
-
-                    <li>
-                        <div class="liNo">102</div>
-                        <div class="liHorse ">Dylan the Bard</div>
-                        <div class="liRider hide">Marion Wallbridge</div>
-                        <div class="liPos">1</div>
-                        <div class="liPosLabel">Pos:</div>
-
-                        &nbsp;<br>&nbsp;
-
-                        <div class="liLabel">D:</div>
-                        <div class="liInput"><input type='number' name="dressage" size="5" placeholder="Dr"></div>
-                        <div class="liLabel">SJ:</div>
-                        <div class="liInput"><input type='number' name="SJ" size="5" placeholder="SJ"></div>
-                        <div class="liLabel">XC:</div>
-                        <div class="liInput"><input type='number' name="XC" size="5" placeholder="XC"></div>
-                        <div class="liLabel">XCT:</div>
-                        <div class="liInput"><input type='number' name="XCT" size="5" placeholder="XCT"></div>
-                        <div class="liTotal">---</div>
-                    </li>
-
-
-
-                </ul>
-                <ul id='sortedList'>
-
-                </ul>
+            <div class="button" onClick="end()">
+                End
             </div>
         </div>
-        <div id="tabBar" class="buttonset navibar">
-            <div class="button" onClick="sortNum('.liNo')">
-                Sort:Num
-            </div>
-            <div class="button" onClick="sortNum('.liTotal')">
-                Sort:Pos
-            </div>
-            <div class="button" onClick="jQT.goTo('#timing','slideup');">
-                Timing
-            </div>
-        </div>
-        <div id="delBar" class="buttonset navibar hide">
-            <div class="button" onClick="doDelHide()">
-                Archive
-            </div>
-            <div class="button red" onClick="doDelete()">
-                Delete
-            </div>
+        <!--        <a id="aBtn2" href="#" class="button" onClick="top()" style="position: absolute; top:7px; left:0px;">Top</a> -->
+    </div>
+    <div class="buttonset navibar">
+        <input onclick="doFilter()" type="radio" name="whatsup" title="All" checked/>
+        <input onclick="doFilter(1)" type="radio" name="whatsup" title="Ring 1" />
+        <input onclick="doFilter(2)" type="radio" name="whatsup" title="Ring 2" />
+        <input onclick="doFilter(3)" type="radio" name="whatsup" title="Ring 3"  />
+
+
+
+    </div>
+    <div class="s-scrollwrapper contentwrap">
+        <div class="s-scrollpane">
+            <ul id="mainList" class="edgetoedge childrenactivable">
+                <li>
+                    <div class="liRing">2</div>
+                    <div class="liNo">104</div>
+                    <div class="liHorse ">Dylan the Bard</div>
+                    <div class="liRider hide">Marion Wallbridge</div>
+                    <div class="liPos">1</div>
+                    <div class="liPosLabel">Pos:</div>
+
+                    &nbsp;<br>&nbsp;
+
+                    <div class="liLabel">D:</div>
+                    <div class="liInput"><input type='number' name="dressage" size="5" placeholder="Dr"></div>
+                    <div class="liLabel">SJ:</div>
+                    <div class="liInput"><input type='number' name="SJ" size="5" placeholder="SJ"></div>
+                    <div class="liLabel">XC:</div>
+                    <div class="liInput"><input type='number' name="XC" size="5" placeholder="XC"></div>
+                    <div class="liLabel">XCT:</div>
+                    <div class="liInput"><input type='number' name="XCT" size="5" placeholder="XCT"></div>
+                    <div class="liTotal">---</div>
+                </li>
+
+                <li>
+                    <div class="liRing">2</div>
+                    <div class="liNo">103</div>
+                    <div class="liHorse ">Dylan the Bard</div>
+                    <div class="liRider hide">Marion Wallbridge</div>
+                    <div class="liPos">1</div>
+                    <div class="liPosLabel">Pos:</div>
+
+                    &nbsp;<br>&nbsp;
+
+                    <div class="liLabel">D:</div>
+                    <div class="liInput"><input type='number' name="dressage" size="5" placeholder="Dr"></div>
+                    <div class="liLabel">SJ:</div>
+                    <div class="liInput"><input type='number' name="SJ" size="5" placeholder="SJ"></div>
+                    <div class="liLabel">XC:</div>
+                    <div class="liInput"><input type='number' name="XC" size="5" placeholder="XC"></div>
+                    <div class="liLabel">XCT:</div>
+                    <div class="liInput"><input type='number' name="XCT" size="5" placeholder="XCT"></div>
+                    <div class="liTotal">---</div>
+                </li>
+                <li>
+                    <div class="liRing">1</div>
+                    <div class="liNo">101</div>
+                    <div class="liHorse ">Dylan the Bard</div>
+                    <div class="liRider hide">Marion Wallbridge</div>
+                    <div class="liPos">1</div>
+                    <div class="liPosLabel">Pos:</div>
+
+                    &nbsp;<br>&nbsp;
+
+                    <div class="liLabel">D:</div>
+                    <div class="liInput"><input type='number' name="dressage" size="5" placeholder="Dr"></div>
+                    <div class="liLabel">SJ:</div>
+                    <div class="liInput"><input type='number' name="SJ" size="5" placeholder="SJ"></div>
+                    <div class="liLabel">XC:</div>
+                    <div class="liInput"><input type='number' name="XC" size="5" placeholder="XC"></div>
+                    <div class="liLabel">XCT:</div>
+                    <div class="liInput"><input type='number' name="XCT" size="5" placeholder="XCT"></div>
+                    <div class="liTotal">---</div>
+                </li>
+
+                <li>
+                    <div class="liRing">1</div>
+                    <div class="liNo">102</div>
+                    <div class="liHorse ">Dylan the Bard</div>
+                    <div class="liRider hide">Marion Wallbridge</div>
+                    <div class="liPos">1</div>
+                    <div class="liPosLabel">Pos:</div>
+
+                    &nbsp;<br>&nbsp;
+
+                    <div class="liLabel">D:</div>
+                    <div class="liInput"><input type='number' name="dressage" size="5" placeholder="Dr"></div>
+                    <div class="liLabel">SJ:</div>
+                    <div class="liInput"><input type='number' name="SJ" size="5" placeholder="SJ"></div>
+                    <div class="liLabel">XC:</div>
+                    <div class="liInput"><input type='number' name="XC" size="5" placeholder="XC"></div>
+                    <div class="liLabel">XCT:</div>
+                    <div class="liInput"><input type='number' name="XCT" size="5" placeholder="XCT"></div>
+                    <div class="liTotal">---</div>
+                </li>
+
+                <li>
+                    <div class="liRing">3</div>
+                    <div class="liNo">105</div>
+                    <div class="liHorse ">Dylan the Bard</div>
+                    <div class="liRider hide">Marion Wallbridge</div>
+                    <div class="liPos">1</div>
+                    <div class="liPosLabel">Pos:</div>
+
+                    &nbsp;<br>&nbsp;
+
+                    <div class="liLabel">D:</div>
+                    <div class="liInput"><input type='number' name="dressage" size="5" placeholder="Dr"></div>
+                    <div class="liLabel">SJ:</div>
+                    <div class="liInput"><input type='number' name="SJ" size="5" placeholder="SJ"></div>
+                    <div class="liLabel">XC:</div>
+                    <div class="liInput"><input type='number' name="XC" size="5" placeholder="XC"></div>
+                    <div class="liLabel">XCT:</div>
+                    <div class="liInput"><input type='number' name="XCT" size="5" placeholder="XCT"></div>
+                    <div class="liTotal">---</div>
+                </li>
+
+
+            </ul>
+            <ul id='sortedList'>
+
+            </ul>
         </div>
     </div>
-
-    <div id="editrider" class="edit">
-        <div class="toolbar">
-            <h1><span id='competitor'>[competitor]</span></h1>
-            <a href="#" class="back">Cancel</a>
+    <div id="tabBar" class="buttonset navibar">
+        <div class="button" onClick="sortNum('.liNo')">
+            Sort:Num
         </div>
-        <div class="s-scrollwrapper contentwrap">
-            <div class="s-scrollpane">
-                <ul class="edit rounded">
-                    <li>
-                        <div class="editLabel">Start</div>
-                        <div class="editInput">
-                            <input type='number' name="editStart" size="10" placeholder="(hh:mm:ss)" onchange="editXCT('start')" id="editStart">
-                        </div>
-                    </li>
-                    <li>
-
-                        <div class="editLabel">Stop</div>
-                        <div class="editInput">
-                            <input type='number' name="editStop" size="10" placeholder="(hh:mm:ss)" onchange="editXCT('stop')" id="editStop">
-                        </div>
-                    </li>
-                    <li>
-                        <div class="editLabel">XC Time</div>
-                        <div class="editInput">
-                            <input type='number' name="editXC Time" size="10" placeholder="(mm:ss)" onchange="editXCT('time')" id="editXCTime">
-                        </div>
-                    </li>
-                    <li>
-                        <div class="editLabel">XCT</div>
-                        <div class="editInput">
-                            <input type='number' name="editXCT Time" size="10" placeholder="XCT" id="editXCT">
-                        </div>
-                    </li>
-
-                </ul>
-                <ul class="edit rounded">
-                    <li class="arrow" onClick="saveEdit()">
-                        Save
-                    </li>
-                </ul>
-            </div>
+        <div class="button" onClick="sortNum('.liTotal')">
+            Sort:Pos
+        </div>
+        <div class="button" onClick="jQT.goTo('#timing','slideup');">
+            Timing
         </div>
     </div>
-
-    <div id="options" class="edit">
-        <div class="toolbar">
-            <h1>Options</h1>
-            <a href="#" class="back">Back</a>
+    <div id="delBar" class="buttonset navibar hide">
+        <div class="button" onClick="doDelHide()">
+            Archive
         </div>
-        <div class="s-scrollwrapper contentwrap">
-            <div class="s-scrollpane">
-                <ul class="edit rounded">
-                    <li>
-                        <div style="float:left">
-                            Optimum Time
-                        </div>
-                        <div style="float:right">
-                            <input type='number' name="optimum" size="8" placeholder="(mm:ss)" id="optimum">
-                        </div>
-                    </li>
-                </ul>
-                <ul class="edit rounded">
-                    <li class="arrow" onclick="doResetLocal()">Reset Local</li>
-                </ul>
-
-                <ul class="edit rounded">
-                    <li class="arrow" onclick="loadFromRemote()">Load from Remote</li>
-                </ul>
-
-            </div>
+        <div class="button red" onClick="doDelete()">
+            Delete
         </div>
     </div>
+</div>
 
+<div id="editrider" class="edit">
+    <div class="toolbar">
+        <h1><span id='competitor'>[competitor]</span></h1>
+        <a href="#" class="back">Cancel</a>
+    </div>
+    <div class="s-scrollwrapper contentwrap">
+        <div class="s-scrollpane">
+            <ul class="edit rounded">
+                <li>
+                    <div class="editLabel">Start</div>
+                    <div class="editInput">
+                        <input type='number' name="editStart" size="10" placeholder="(hh:mm:ss)" onchange="editXCT('start')" id="editStart">
+                    </div>
+                </li>
+                <li>
 
-    <div id="timing" class="edit">
-        <div class="toolbar">
-            <h1><span id="theTime">00:00:00</span></h1>
-            <a href="#" class="back">Back</a>
-        </div>
-        <ul class="edit rounded">
-            <li>
-                <div style="float:left">
-                    <input type='number' name="competitorNo" size="8" placeholder="Number" id="competitorNo" class="largeInput">
-                </div>
-            </li>
-            <li class="arrow" onclick="doStart()">
-                <h1>Start</h1>
-            </li>
-        </ul>
-        <ul class="edit rounded">
-            <li class="arrow" onclick="doStop()">
-                <h1>Stop</h1>
-            </li>
-        </ul>
-        <div class="s-scrollwrapper contentwrap">
-            <div class="s-scrollpane">
-                <h4>Stop Times</h4>
-                <ul id="stopList" class="rounded">
-                </ul>
-                <h4>Running</h4>
-                <ul id="runningList" class="rounded">
-                </ul>
-                <h4>Finished</h4>
-                <ul id="finishedList" class="rounded">
-                </ul>
+                    <div class="editLabel">Stop</div>
+                    <div class="editInput">
+                        <input type='number' name="editStop" size="10" placeholder="(hh:mm:ss)" onchange="editXCT('stop')" id="editStop">
+                    </div>
+                </li>
+                <li>
+                    <div class="editLabel">XC Time</div>
+                    <div class="editInput">
+                        <input type='number' name="editXC Time" size="10" placeholder="(mm:ss)" onchange="editXCT('time')" id="editXCTime">
+                    </div>
+                </li>
+                <li>
+                    <div class="editLabel">XCT</div>
+                    <div class="editInput">
+                        <input type='number' name="editXCT Time" size="10" placeholder="XCT" id="editXCT">
+                    </div>
+                </li>
 
-            </div>
+            </ul>
+            <ul class="edit rounded">
+                <li class="arrow" onClick="saveEdit()">
+                    Save
+                </li>
+            </ul>
         </div>
     </div>
+</div>
+
+<div id="options" class="edit">
+    <div class="toolbar">
+        <h1>Options</h1>
+        <a href="#" class="back">Back</a>
+    </div>
+    <div class="s-scrollwrapper contentwrap">
+        <div class="s-scrollpane">
+            <ul class="edit rounded">
+                <li>
+                    <div style="float:left">
+                        Optimum Time
+                    </div>
+                    <div style="float:right">
+                        <input type='number' name="optimum" size="8" placeholder="(mm:ss)" id="optimum">
+                    </div>
+                </li>
+            </ul>
+            <ul class="edit rounded">
+                <li class="arrow" onclick="doResetLocal()">Reset Local</li>
+            </ul>
+
+            <ul class="edit rounded">
+                <li class="arrow" onclick="loadFromRemote()">Load from Remote</li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+
+<div id="timing" class="edit">
+    <div class="toolbar">
+        <h1><span id="theTime">00:00:00</span></h1>
+        <a href="#" class="back">Back</a>
+    </div>
+    <ul class="edit rounded">
+        <li>
+            <div style="float:left">
+                <input type='number' name="competitorNo" size="8" placeholder="Number" id="competitorNo" class="largeInput">
+            </div>
+        </li>
+        <li class="arrow" onclick="doStart()">
+            <h1>Start</h1>
+        </li>
+    </ul>
+    <ul class="edit rounded">
+        <li class="arrow" onclick="doStop()">
+            <h1>Stop</h1>
+        </li>
+    </ul>
+    <div class="s-scrollwrapper contentwrap">
+        <div class="s-scrollpane">
+            <h4>Stop Times</h4>
+            <ul id="stopList" class="rounded">
+            </ul>
+            <h4>Running</h4>
+            <ul id="runningList" class="rounded">
+            </ul>
+            <h4>Finished</h4>
+            <ul id="finishedList" class="rounded">
+            </ul>
+
+        </div>
+    </div>
+</div>
 </div>
 </body>
 </html>

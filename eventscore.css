@@ -124,8 +124,12 @@ div#jqt .hide {
     overflow: hidden;
     white-space: nowrap;
     margin-right: 5px;
-
 }
+
+.liRing {
+    display: none;
+}
+
 .editLabel {
     float: left;
 }
