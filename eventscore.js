@@ -412,7 +412,7 @@ $(document).ready(function() {
         });
     }
 
-    loaded();
+    //loaded();
 
     setTimeout(function() {
         loaded();
@@ -421,7 +421,8 @@ $(document).ready(function() {
         setTimeout(function() {
             $(window).resize();
         }, 1500);
-    }, 50);
+    }, 200);
+
     setInterval("timer()",100);
 
 });
