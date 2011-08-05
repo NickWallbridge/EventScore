@@ -1,3 +1,4 @@
+//Copyright (c) 2011 N D Wallbridge
 // JavaScript Document
 var version = "0.1.0";
 var undo = [];
