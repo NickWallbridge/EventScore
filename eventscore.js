@@ -285,16 +285,20 @@ function doCompStop(that) {
 
 }
 function doSaveTimings(){
-    localStorage['EventTiming_All']=$('#finishedList').html()
-    localStorage['EventRunning_All']=$('#runningList').html()
+    localStorage['EventScore_Timing']=$('#finishedList').html();
+    localStorage['EventScore_Running']=$('#runningList').html();
+    localStorage['EventScore_Optimum']=$('#optimum').val();
 
 
 }
 
 function loadLocalTimings() {
-    $('#finishedList').html(localStorage['EventTiming_All'])
-    $('#runningList').html(localStorage['EventRunning_All'])
-
+    $('#finishedList').html(localStorage['EventScore_Timing']);
+    $('#runningList').html(localStorage['EventScore_Running']);
+    $('#optimum').val(localStorage['EventScore_Optimum']);
+    doOptimumSet();
+    jQT.goBack();
+    
 }
 
 function doOptimumSet(){
