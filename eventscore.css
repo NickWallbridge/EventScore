@@ -1,0 +1,134 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+div#jqt .hide {
+	display: none;
+}
+/* Override list theme so we don't get blue on active with white text */
+
+ #jqt ul li.active {
+ color: black;
+ text-shadow: none;
+ }
+
+ #jqt > * ul.childrenactivable > li.active,
+ #jqt > * ul.edgetoedge > li.active {
+ background-color: white;
+ background-image: none !important;
+ }
+
+.currentTime {
+    text-align: center;
+    width: 100%;
+    color: white;
+}
+
+.largeInput {
+    -webkit-transform: scale(1.5,1.5);
+    margin-left: 20px;
+
+}
+.compNo {
+    float:left;
+}
+.compStartTime {
+    float:right;
+    padding-right: 10px;
+}
+.compStopTime {
+    float:right;
+    padding-right: 10px;
+}
+
+.compTime {
+    padding-right: 10px;
+    float:right;
+}
+.penalties {
+    float:right;
+    color: green;
+    min-width: 40px;
+    text-align: right;
+}
+
+.penaltiesRed {
+    color: red !important;
+}
+.penaltiesOrange {
+    color: orange !important;
+}
+
+.dnf {
+    float:right;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+#stopList > li:first-child {
+    background-color: #ffd700;
+}
+
+.liPos {
+    float: right;
+    min-width: 15px;
+    text-align: right;
+    font-size: smaller;
+    color: #808080;
+}
+.liPosLabel {
+    float: right;
+    min-width: 15px;
+    text-align: right;
+    font-size: smaller;
+    color: #808080;
+}
+
+.liNo {
+    float: left;
+    min-width: 30px;
+    text-align: left;
+
+}
+.liLabel {
+    float: left;
+    text-align: left;
+    display: none;
+}
+.liTotal {
+    float: right;
+    min-width: 35px;
+    text-align: right;
+}
+.liInput {
+    float: left;
+    min-width: 35px;
+    text-align: right;
+    
+}
+.liHorse {
+    float: left;
+    min-width: 125px;
+    max-width: 125px;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-right: 5px;
+
+}
+.liRider {
+    float: left;
+    min-width: 110px;
+    max-width: 110px;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-right: 5px;
+
+}
+.editLabel {
+    float: left;
+}
+.editInput {
+    float: right;
+}
