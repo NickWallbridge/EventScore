@@ -1,3 +1,8 @@
+//TODO: Need Sort by Dressage option
+//TODO: Check if number already timed
+//TODO: Need to be able to sort finished
+//TODO: Indicate too fast on main scores
+
 /*
  Copyright (c) 2011 N D Wallbridge
  JavaScript Document
@@ -76,20 +81,114 @@ function AjaxFailed(result) {
     alert(result.status + ' ' + result.statusText);
 }
 
-function loadFromRemote() {
-            //try to load from remote
-            $.ajax({
-                type: "POST",
-                url: "http://eventingedge.com/WSchecklist.asmx/EventScoreLoad",
-                data: '{}',
-                contentType: 'application/json; charset=UTF-8',
-                dataType: 'json',
-                async: false,
-                success: AjaxSucceeded,
-                error: AjaxFailed
-            });
+function baseLoadFromRemote() {
+    //try to load from remote
+    $.ajax({
+        type: "POST",
+        url: "http://eventingedge.com/WSchecklist.asmx/EventScoreBaseLoad",
+        data: '{}',
+        contentType: 'application/json; charset=UTF-8',
+        dataType: 'json',
+        async: false,
+        success: AjaxSucceeded,
+        error: AjaxFailed
+    });
 
 }
+function AjaxSaveSucceeded(result) {
+    alert('Success');
+}
+
+function AjaxLoadSucceeded(result) {
+    var s = result.d;
+    s = s.replace(/~~/g,'"');
+
+
+    localStorage['EventScore_Timing']=s;
+    loadLocalTimings();
+    alert('Success');
+}
+
+function AjaxLoadScoresSucceeded(result) {
+    var s = result.d;
+//    console.log(s);
+//    s = JSON.parse(s);
+//    console.log(s);
+
+    localStorage['EventScore_All']=s;
+    loadFromLocal();
+
+    alert('Success');
+}
+
+
+function saveRemoteTimings() {
+    var s = $('#finishedList').html();
+    s = s.replace(/"/g,'~~');
+    $.ajax({
+        type: "POST",
+        url: "http://eventingedge.com/WSchecklist.asmx/EventScoreSave",
+        data: '{"item":"finishedList","value":"'+s+'"}',
+        contentType: 'application/json; charset=UTF-8',
+        dataType: 'json',
+        async: false,
+        success: AjaxSaveSucceeded,
+        error: AjaxFailed
+    });
+
+}
+
+function loadRemoteTimings() {
+    $.ajax({
+        type: "POST",
+        url: "http://eventingedge.com/WSchecklist.asmx/EventScoreLoad",
+        data: '{"item":"finishedList"}',
+        contentType: 'application/json; charset=UTF-8',
+        dataType: 'json',
+        async: false,
+        success: AjaxLoadSucceeded,
+        error: AjaxFailed
+    });
+
+}
+
+function saveRemoteScores() {
+    saveToLocal();
+    var s = JSON.stringify(scoreData);  //convert array to string
+    s = JSON.stringify(s);  //then escape JSON characters to send in data
+
+    /*
+     s = s.replace(/"/g,'~~');
+     s = s.replace(/\[/g,'##');
+     s = s.replace(/\]/g,'++');
+     */
+    $.ajax({
+        type: "POST",
+        url: "http://eventingedge.com/WSchecklist.asmx/EventScoreSave",
+        data: '{"item":"scoreData","value":'+s+'}',
+        contentType: 'application/json; charset=UTF-8',
+        dataType: 'json',
+        async: false,
+        success: AjaxSaveSucceeded,
+        error: AjaxFailed
+    });
+
+}
+
+function loadRemoteScores() {
+    $.ajax({
+        type: "POST",
+        url: "http://eventingedge.com/WSchecklist.asmx/EventScoreLoad",
+        data: '{"item":"scoreData"}',
+        contentType: 'application/json; charset=UTF-8',
+        dataType: 'json',
+        async: false,
+        success: AjaxLoadScoresSucceeded,
+        error: AjaxFailed
+    });
+
+}
+
 
 function loadFromLocal() {
     scoreData = [];
@@ -124,6 +223,13 @@ function loadFromLocal() {
 
 function doResetLocal() {
     localStorage.removeItem('EventScore_All');
+}
+
+function doResetLocalTimings() {
+    localStorage['EventScore_Timing']="";
+    localStorage['EventScore_Running']="";
+    loadLocalTimings();
+
 }
 
 function sortNum(selected) {
@@ -199,17 +305,24 @@ function editXCT(calledBy) {
     var stopTime = $('#editStop').val();
     var startTime = $('#editStart').val();
     var XCTime = $('#editXCTime').val();
+    var hh;
     var mm;
-    var ss
+    var ss;
+
     if (calledBy == 'start' || calledBy == 'stop') {
         var startEl = startTime.split(":");
         var stopEl = stopTime.split(":");
-        mm = parseInt(stopEl[1]) - parseInt(startEl[1]);
-        ss = parseInt(stopEl[2]) - parseInt(startEl[2]);
+        hh = parseInt(stopEl[0],10) - parseInt(startEl[0],10);
+        mm = parseInt(stopEl[1],10) - parseInt(startEl[1],10);
+        ss = parseInt(stopEl[2],10) - parseInt(startEl[2],10);
     } else if (calledBy == 'time') {
         var timeEl = $('#editXCTime').val().split(":");
-        mm = parseInt(timeEl[0]);
-        ss = parseInt(timeEl[1])
+        mm = parseInt(timeEl[0],10);
+        ss = parseInt(timeEl[1],10)
+    }
+
+    if (mm < 0) {
+        mm = mm + 60;
     }
 
     if (ss < 0) {
@@ -224,8 +337,8 @@ function editXCT(calledBy) {
     }
 
     var optEl = $('#optimum').val().split(":");
-    var compSecs = parseInt(mm)*60 + parseInt(ss);
-    var optSecs = parseInt(optEl[0])*60 + parseInt(optEl[1]);
+    var compSecs = parseInt(mm,10)*60 + parseInt(ss,10);
+    var optSecs = parseInt(optEl[0],10)*60 + parseInt(optEl[1],10);
     var penSecs = compSecs - optSecs;
     var penalties = 0;
     if (penSecs > 0) {
@@ -243,14 +356,20 @@ function doCompStop(that) {
     if (stopTime == '') {
         stopTime = $('#theTime').text();  //do "immediate" stop
     }
-    var $el = $(that);
+    var $el = $(that).parent('li');
     var startTime = $('.compStartTime',$el).text();
     var compNo = $('.compNo',$el).text();
     var startEl = startTime.split(":");
     var stopEl = stopTime.split(":");
     var optEl = $('#optimum').val().split(":");
-    var mm = parseInt(stopEl[1]) - parseInt(startEl[1]);
-    var ss = parseInt(stopEl[2]) - parseInt(startEl[2]);
+    var mm = parseInt(stopEl[1],10) - parseInt(startEl[1],10);
+    var ss = parseInt(stopEl[2],10) - parseInt(startEl[2],10);
+
+    if (mm < 0) {
+        mm = mm + 60;
+    }
+
+
     if (ss < 0) {
         ss = ss + 60;
         mm--;
@@ -262,8 +381,8 @@ function doCompStop(that) {
         mm = "0"+mm;
     }
     var addClass = '';
-    var compSecs = parseInt(mm)*60 + parseInt(ss);
-    var optSecs = parseInt(optEl[0])*60 + parseInt(optEl[1]);
+    var compSecs = parseInt(mm,10)*60 + parseInt(ss,10);
+    var optSecs = parseInt(optEl[0],10)*60 + parseInt(optEl[1],10);
     var penSecs = compSecs - optSecs;
     var penalties = 0;
     if (penSecs > 0) {
@@ -281,8 +400,44 @@ function doCompStop(that) {
     $el.remove();
     $('#stopList li:first-child').remove();
     setHeight();
-    doSaveTimings()
+    doSaveTimings();
 
+    updateMainXCT(compNo, penalties);
+    doBindTimings();
+
+}
+
+function applyXCT() {
+    $('#finishedList li').each(function() {
+        var $el = $(this);
+        var compNo = $('.compNo',$el).text();
+        var penalties = $('.penalties',$el).text();
+        if (penalties == 'ELIM') {
+            penalties = 'E';
+        }
+        updateMainXCT(compNo, penalties);
+
+
+    });
+
+}
+
+function updateMainXCT(compNo, penalties) {
+    //Now find and update main record
+    var comp = parseFloat(compNo);
+    $('#mainList .liNo').each(function() {
+        var num = parseFloat($(this).text());
+        if (num == comp) {
+            var $el = $(this).parent('li');
+            var s = $("INPUT[name='XCT']", $el).val();
+            if (s=='' || penalties == '') { //only overwrite if blank or penalties being reset
+                $("INPUT[name='XCT']", $el).val(penalties);
+            }
+            doCalcTotal($("INPUT[name='XCT']", $el)[0], false);
+
+            return false;
+        }
+    })
 }
 function doSaveTimings(){
     localStorage['EventScore_Timing']=$('#finishedList').html();
@@ -293,12 +448,19 @@ function doSaveTimings(){
 }
 
 function loadLocalTimings() {
-    $('#finishedList').html(localStorage['EventScore_Timing']);
-    $('#runningList').html(localStorage['EventScore_Running']);
-    $('#optimum').val(localStorage['EventScore_Optimum']);
-    doOptimumSet();
-    jQT.goBack();
-    
+    try {
+        $('#finishedList').html(localStorage['EventScore_Timing']);
+        $('#runningList').html(localStorage['EventScore_Running']);
+        $('#optimum').val(localStorage['EventScore_Optimum']);
+        doOptimumSet();
+    } catch(e) {
+
+    }
+    doBindTimings();
+    if (! starting) {
+        jQT.goBack();
+    }
+
 }
 
 function doOptimumSet(){
@@ -323,17 +485,55 @@ function doDNF(that) {
     window.event.stopPropagation();
     doSaveTimings();
 
+    updateMainXCT(compNo, 'E');
+
+    doBindTimings();
+
+
 
 }
+
+function doBindTimings() {
+
+    $('#runningList li').unbind('swipe');
+    $('#runningList li').bind('swipe', function(evt, data) {
+        var $el = $(this);
+        $el.remove();
+        doSaveTimings();
+        doBindTimings();
+
+
+    });
+
+    $('#finishedList li').unbind('swipe');
+    $('#finishedList li').bind('swipe', function(evt, data) {
+        var $el = $(this);
+        var compNo = $('.compNo',$el).text();
+        var startTime = $('.compStartTime',$el).text();
+        $("<li><div class='compNo'>"+compNo+"</div><div onclick='doCompStop(this)' class='button stopBtn'>Stop</div><div class='button red dnf' onclick='doDNF(this)'>DNF</div><div class='compRunTime'>00:00</div><div class='compStartTime'>"+startTime+"</div></li>").appendTo('#runningList');
+        updateMainXCT(compNo, '');
+
+        $el.remove();
+
+        doSaveTimings();
+        doBindTimings();
+
+    });
+
+}
+
 
 function doStart() {
     if ($('#competitorNo').val().length > 0 ) {
         var startTime = $('#theTime').text();
         var compNo = $('#competitorNo').val();
-        $("<li onclick='doCompStop(this)' class='arrow'><div class='compNo'>"+compNo+"</div><div class='compStartTime'>"+startTime+"</div><div class='button dnf' onclick='doDNF(this)'>DNF</div></li>").appendTo('#runningList');
+        $("<li><div class='compNo'>"+compNo+"</div><div onclick='doCompStop(this)' class='button stopBtn'>Stop</div><div class='button red dnf' onclick='doDNF(this)'>DNF</div><div class='compRunTime'>00:00</div><div class='compStartTime'>"+startTime+"</div></li>").appendTo('#runningList');
         $('#competitorNo').val('');
         setHeight();
         doSaveTimings();
+
+        doBindTimings();
+
     }
 }
 
@@ -368,7 +568,37 @@ function hhmmss(ms) {
 function timer() {
     var time = new Date();
     var ms = time.getTime();
-    $('#theTime').text(hhmmss(ms));
+    var stopTime = hhmmss(ms);
+    $('#theTime').text(stopTime);
+
+    $('#runningList li').each(function() {
+        var $el = $(this);
+        var startTime = $('.compStartTime',$el).text();
+        var startEl = startTime.split(":");
+        var stopEl = stopTime.split(":");
+        var mm = parseInt(stopEl[1],10) - parseInt(startEl[1],10);
+        var ss = parseInt(stopEl[2],10) - parseInt(startEl[2],10);
+
+        if (mm < 0) {
+            mm = mm + 60;
+        }
+
+        if (ss < 0) {
+            ss = ss + 60;
+            mm--;
+        }
+        if (ss < 10) {
+            ss = "0"+ss;
+        }
+        if (mm < 10) {
+            mm = "0"+mm;
+        }
+
+        $('.compRunTime', $el).text(mm+":"+ss);
+
+    });
+
+
 }
 
 function setHeight() {
@@ -390,8 +620,8 @@ function doBindings() {
 //        evt.preventDefault();
         evt.stopPropagation();
     });
-    $("#mainList li").bind('click', function () {
-        var $el = $(this);
+    $("#mainList .liHorse").bind('click', function () {
+        var $el = $(this).parent('li');
         $currentEdit = $el;
         var competitor = $('.liNo', $el).text()+' '+$('.liHorse', $el).text()
         var XCT = $("INPUT[name='XCT']", $el).val();
@@ -401,9 +631,14 @@ function doBindings() {
     });
 
 }
+
+var starting = true;
+
 $(document).ready(function() {
     loadFromLocal();
     doBindings();
+
+//    loadLocalTimings();
     // initialize iscroll
     var KEY_ISCROLL_OBJ = 'iscroll_object';
     function refreshScroll($pane) {
@@ -490,6 +725,12 @@ $(function() {
     //	jQT.setPageHeight();
     // Orientation callback event
     //new NoClickDelay(document.getElementById('aBtnTest'));
+    $('#timing').bind('pageAnimationStart', function(e, info) {
+        if (starting) {
+            loadLocalTimings();
+            starting = false;
+        }
+    });
     $('#home').bind('pageAnimationStart', function(e, info) {
 //        console.log('Home Animate Start');
 

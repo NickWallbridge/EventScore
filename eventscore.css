@@ -31,10 +31,23 @@ div#jqt .hide {
 .compNo {
     float:left;
 }
+.stopBtn {
+    float:left;
+    margin-left: 5px;
+    min-width: 70px !important;
+
+}
+
 .compStartTime {
     float:right;
     padding-right: 5px;
 }
+
+.compRunTime {
+    float:right;
+    padding-right: 5px;
+}
+
 .compStopTime {
     float:right;
     padding-right: 10px;
@@ -61,8 +74,8 @@ div#jqt .hide {
 
 .dnf {
     float:right;
-    margin-right: 10px;
-    margin-left: 10px;
+    margin-right: 0px;
+    margin-left: 5px;
 }
 
 #stopList > li:first-child {
